@@ -17,3 +17,12 @@ class Trabajo:
         self.retirado = retirado
         self.id_trabajo = id_trabajo
 
+
+
+    def __str__(self):
+        cadenat = f"{self.cliente}:{self.fecha_ingreso} {self.fecha_entrega_propuesta} (Trabajo)\n"
+        cadenat+= f"{self.descripcion} - {self.id_trabajo}\n"
+        return cadenat
+         
+
+
