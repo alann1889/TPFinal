@@ -2,7 +2,7 @@ from cliente import Cliente
 from clienteParticular import ClienteParticular
 from clienteCorporativo import ClienteCorporativo
 from repositorioClientes import RepositorioClientes
-
+from repositorio  import Repositorio
 class ListaClientes:
     def __init__(self):
         self.rc = RepositorioClientes()
