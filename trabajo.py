@@ -20,9 +20,9 @@ class Trabajo:
 
 
     def __str__(self):
-        cadenat = f"{self.cliente}:{self.fecha_ingreso} {self.fecha_entrega_propuesta} (Trabajo)\n"
-        cadenat+= f"{self.descripcion} - {self.id_trabajo}\n"
-        return cadenat
+        cadena = f"{self.cliente}:{self.fecha_ingreso} {self.fecha_entrega_propuesta} (Trabajo)\n"
+        cadena+= f"{self.descripcion} - {self.id_trabajo} {self.retirado} {self.fecha_entrega_real}\n"
+        return cadena
          
 
 

@@ -22,3 +22,11 @@ class ListaTrabajos:
             self.listatrabajo.append(t)
             return t
 
+    def modificar_trabajo(self, cliente, fecha_ingreso, fecha_entrega_propuesta, fecha_entrega_real, descripcion, retirado = False):
+        t = Trabajo(cliente, fecha_ingreso, fecha_entrega_propuesta, fecha_entrega_real, descripcion, retirado = False)
+        t.id_trabajo = self.rt.update(t)
+        if t.id_trabajo == 0:
+            return None
+        else:
+            return t
+

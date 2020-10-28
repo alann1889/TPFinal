@@ -10,6 +10,9 @@ from listaTrabajos import ListaTrabajos
 from datetime import datetime 
 from datetime import date
 from trabajo import Trabajo
+from tkinter import ttk
+from tkinter import *
+
 
 
 
@@ -29,22 +32,22 @@ class Menu:
             "5": self.nuevo_trabajo,
             "6": self.mostrar_trabajo,
             "7": self.modificar_trabajo,
+            "8": self.eliminar_trabajo,
             "0": self.salir
         }
 
     def mostrar_menu(self):
         print("""
 Menú del anotador:
-1. Mostrar todos los clientes
-2. Ingrese los datos del nuevo cliente
-3. Actualizar datos de un cliente
-4. Eliminar cliente
-5. Ingrese los datos del trabajo
-6. Mostrar trabajos
-7. Modificar trabajo 
-8. Eliminar trabajo
-9. Generar informe
-0. Salir
+1.  Mostrar todos los clientes 
+2.  Ingrese los datos del nuevo cliente 
+3.  Actualizar datos de un cliente 
+4.  Eliminar cliente 
+5.  Ingrese los datos del trabajo 
+6.  Mostrar trabajos 
+7.  Modificar datos de trabajo (fecha de entrega, retirado) 
+8.  Eliminar trabajo 
+0.  Salir 
 """)
 
     def ejecutar(self):
@@ -77,13 +80,13 @@ Menú del anotador:
         tel = int(input("Ingrese el telefono particular: "))
         mail = input("Ingrese el correo electronico: ")
         if tipo in ("C", "c"):
-            c = self.lista_clientes.nuevo_cliente_corporativo(tel, mail)
+            c = self.lista_clientes.nuevo_cliente_corporativo(nombre, contacto, tc, tel, mail)
         else:
             c = self.lista_clientes.nuevo_cliente_particular(nombre, apellido, tel, mail)
         if c is None:
-            print("Error al cargar el cliente")
+            print("Error al cargar el trabajo")
         else:
-            print("Cliente cargado correctamente")
+            print("Trabajo cargado correctamente")
 
 
 
@@ -133,7 +136,7 @@ Menú del anotador:
             dia = int(input("Ingrese el dia propuesto para la entrega: "))
             mes = int(input("Ingrese el mes propuesto para la entrega (en número, 1 a 12): "))
             anio = int(input("Ingrese el año propuesto para la entrega (4 dígitos): "))
-            fecha_entrega_propuesta = datetime(anio, mes, dia)
+            fecha_entrega_propuesta = datetime.date(anio, mes, dia)
             fecha_entrega_real = None
             descripcion = input("Ingrese una breve descripcion del trabajo: ")
             retirado = False
@@ -153,53 +156,80 @@ Menú del anotador:
             print(Trabajo)
 
     def modificar_trabajo(self):
-        id_cliente = int(input("Ingrese ID del cliente al que le desea modificar un trabajo: "))
+        id_trabajo = int(input("Ingrese ID de trabajo al que le desea modificar un trabajo: "))
         mod_trabajo= input("Ingrese M para modificar un trabajo al cliente: ")
-        trabajo = self.recl.get_one(id_cliente)
+        trabajo = self.repotrabajo.get_one(id_trabajo)
         if mod_trabajo in ("M", "m"):
-            mod_descripcion = input("Si desea modificar la descripcion presione X: ")
+            mod_descripcion = input("Si desea modificar la descripcion presione X, si no presione otra letra: ")
             if mod_descripcion in ("X","x"):
                 descripcion = input("Ingrese una breve descripcion del trabajo: ")
-                mod_ingreso = input("Si desea modificar la fecha de ingreso presione X: ")
+                trabajo.descripcion = descripcion
+                mod_ingreso = input("Si desea modificar la fecha de ingreso presione X, si no presione otra letra: ")
                 if mod_ingreso in ("X","x"):
                     hoy = datetime.today()
-                    fecha_ingreso = hoy
-                    trabajo = (descripcion, fecha_ingreso)
-                    t = self.repotrabajo.update(trabajo)  
-                    print("Se modifico la descripcion y la fecha de ingreso")
+                    ingreso = hoy
+                    trabajo.ingreso = ingreso
+                    print("Se modifico la descripcion y la fecha de ingreso ! ")
                 else:
-                    trabajo = (descripcion)
-                    t = self.repotrabajo.update(trabajo)  
                     print("Se modifico solamente la descripcion")
             else:
-                mod_ingreso = input("Si desea modificar la fecha de ingreso presione X: ")
+                mod_ingreso = input("Si desea modificar la fecha de ingreso presione X, si no presione otra letra: ")
                 if mod_ingreso in ("X","x"):
                     hoy = datetime.today()
-                    fecha_ingreso = hoy
-                    trabajo = (fecha_ingreso)
-                    t = self.repotrabajo.update(trabajo)  
-                    print("Se modifico solamente la fecha de ingreso")
+                    ingreso = hoy
+                    trabajo.ingreso = ingreso
+                    print("Se modifico la fecha de ingreso !")
                 else:
-                    print("No se modifico ningún dato. ")
-            
-            
+                    print("No se modificó la fecha de entrega. ")
+            mod_fechapropuesta = input("Si desea modificar la fecha propuesta presione X, si no presione otra letra: ")
+            if mod_fechapropuesta in ("X", "x"):
+                dia = int(input("Ingrese el dia propuesto para la entrega: "))
+                mes = int(input("Ingrese el mes propuesto para la entrega (en número, 1 a 12): "))
+                anio = int(input("Ingrese el año propuesto para la entrega (4 dígitos): "))
+                fecha_entrega_propuesta = datetime(anio, mes, dia)
+                trabajo.fecha_entrega_propuesta = fecha_entrega_propuesta
+                print("Se modificó la fecha propuesta de entrega !")
+            else:
+                print("No se modifico la fecha propuesta de entrega")
+            mod_fechareal = input("Ingrese X para modificar la fecha de entrega real, si no presione otra letra: ")
+            if mod_fechareal in ("X", "x"):
+                hoy = datetime.today()
+                fecha_entrega_real = hoy
+                trabajo.fecha_entrega_real = fecha_entrega_real
+                print("Se modificó la fecha de entrega real. ")
+            else:
+                print("No se modificó la fecha de entrega real")
+            mod_retirado = input("Ingrese X para modificar si el trabajo fue retirado, si no fue retirado presione N, si no presione otra letra: ")
+            if mod_retirado in ("X", "x"):
+                retirado = True
+                trabajo.retirado = retirado
+                print("El trabajó fue retirado.")
+                t = self.repotrabajo.update(trabajo)                
+            else:
+                if mod_retirado in ("N", "n"):
+                    print("El trabajo no fue retirado")
+                    retirado = False  
+                    trabajo.retirado = retirado
+                    t = self.repotrabajo.update(trabajo)
+            print("Datos actualizados correctamente !")
+            t = self.repotrabajo.update(trabajo)
 
 
 
+    def eliminar_trabajo(self):
+        id_trabajo = int(input("Ingrese ID de trabajo del cliente para eliminar sus trabajos: "))
+        borrar = input("Para eliminar los datos del cliente ingrese E, de caso contrario se cancelará la eliminación: ")
+        trabajo = self.repotrabajo.get_one(id_trabajo)
+        if borrar == "E" or "e":
+            t = self.repotrabajo.delete(trabajo)
+            if t == 0:
+                print("El trabajo ha sido eliminado")
+            else:
+                print("No se eliminó correctamente")
+            print("Eliminación del trabajo de manera exitosa.")
+        else:
+            print("Se cancela la eliminación.")
 
-    
-
-    
-    
-
-    #def registrar_trabajo(self):
-
-
-    #def modificar_trabajo(self):
-
-    #def eliminar_trabajo(self):
-
-    #def generar_informe(self):
     
     def salir(self):
 
