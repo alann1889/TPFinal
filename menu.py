@@ -48,7 +48,7 @@ Menú del anotador:
 6.  Mostrar trabajos 
 7.  Modificar datos de trabajo (registro de trabajo retirado/finalizado)  
 8.  Eliminar trabajo 
-9.  Generar informe
+9.  Mostrar trabajos de un cliente (Informe)
 0.  Salir 
 """)
 
@@ -233,23 +233,21 @@ Menú del anotador:
             print("Se cancela la eliminación.")
 
 
-
-    def generar_informe(self, listatrabajo = None):
-        id_cliente = int(input("Ingrese ID del cliente para ver un informe de sus trabajos encargados: "))
-        gen_inf = input("Para generar un informe de los trabajos presione X: ")
+########### No se como hacer para que con el id del cliente imprima sus trabajos
+########## 
+    def generar_informe(self):           
+        id_cliente = int(input("Ingrese el ID del cliente: "))
         cliente = self.recl.get_one(id_cliente)
-        id_trabajo = ""
-        listaT = self.repotrabajo.get_one(id_trabajo)
         t = self.listaT.un_trabajo
-        if gen_inf in ("X", "x"):
+        for cliente in t:
             print(cliente)
-            print(listaT)
-            print(t)
- 
-        else:
-            print("No se genero ningún informe. ")
-    
 
+
+
+
+
+
+    
     
     def salir(self):
 

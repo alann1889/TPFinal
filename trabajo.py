@@ -18,10 +18,10 @@ class Trabajo:
         self.id_trabajo = id_trabajo
 
 
-
     def __str__(self):
-        cadena = f"{self.cliente}:{self.fecha_ingreso} {self.fecha_entrega_propuesta} (Trabajo)\n"
-        cadena+= f"{self.descripcion} - {self.id_trabajo} {self.retirado} {self.fecha_entrega_real}\n"
+        cadena = f"ID Cliente y nombre {self.cliente}Fecha de ingreso: {self.fecha_ingreso} Fecha de entrega propuesta: {self.fecha_entrega_propuesta} (Trabajo)\n"
+        cadena+= f"Descripción: {self.descripcion} - ID Trabajo: {self.id_trabajo}\n"
+        cadena+= f"Retirado: {self.retirado} Fecha de entrega real: {self.fecha_entrega_real}\n"
         return cadena
          
 
