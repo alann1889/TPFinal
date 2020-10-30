@@ -13,8 +13,9 @@ class ListaTrabajos:
         self.rt = RepositorioTrabajos()
         self.listatrabajo = self.rt.get_all()
 
-    def nuevo_trabajo(self, cliente, fecha_ingreso, fecha_entrega_propuesta, fecha_entrega_real, descripcion, retirado, id_trabajo = None):
-        t = Trabajo(cliente, fecha_ingreso, fecha_entrega_propuesta, fecha_entrega_real, descripcion, retirado, id_trabajo = None)
+
+    def nuevo_trabajo(self, cliente, fecha_ingreso, fecha_entrega_propuesta, fecha_entrega_real, descripcion, retirado):
+        t = Trabajo(cliente, fecha_ingreso, fecha_entrega_propuesta, fecha_entrega_real, descripcion, retirado)
         t.id_contacto = self.rt.store(t)
         if t.id_trabajo == 0:
             return None
@@ -22,9 +23,9 @@ class ListaTrabajos:
             self.listatrabajo.append(t)
             return t
 
-    def modificar_trabajo(self, cliente, fecha_ingreso, fecha_entrega_propuesta, fecha_entrega_real, descripcion, retirado = False):
-        t = Trabajo(cliente, fecha_ingreso, fecha_entrega_propuesta, fecha_entrega_real, descripcion, retirado = False)
-        t.id_trabajo = self.rt.update(t)
+    def un_trabajo(self, cliente, fecha_ingreso, fecha_entrega_propuesta, fecha_entrega_real, descripcion, retirado):
+        t = Trabajo(cliente, fecha_ingreso, fecha_entrega_propuesta, fecha_entrega_real, descripcion, retirado)
+        t.id_contacto = self.rt.get_one(t)
         if t.id_trabajo == 0:
             return None
         else:

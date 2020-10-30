@@ -33,6 +33,7 @@ class Menu:
             "6": self.mostrar_trabajo,
             "7": self.modificar_trabajo,
             "8": self.eliminar_trabajo,
+            "9": self.generar_informe,
             "0": self.salir
         }
 
@@ -40,13 +41,14 @@ class Menu:
         print("""
 Menú del anotador:
 1.  Mostrar todos los clientes 
-2.  Ingrese los datos del nuevo cliente 
+2.  Ingresar los datos del nuevo cliente 
 3.  Actualizar datos de un cliente 
 4.  Eliminar cliente 
-5.  Ingrese los datos del trabajo 
+5.  Ingresar los datos del nuevo trabajo 
 6.  Mostrar trabajos 
-7.  Modificar datos de trabajo (fecha de entrega, retirado) 
+7.  Modificar datos de trabajo (registro de trabajo retirado/finalizado)  
 8.  Eliminar trabajo 
+9.  Generar informe
 0.  Salir 
 """)
 
@@ -136,7 +138,7 @@ Menú del anotador:
             dia = int(input("Ingrese el dia propuesto para la entrega: "))
             mes = int(input("Ingrese el mes propuesto para la entrega (en número, 1 a 12): "))
             anio = int(input("Ingrese el año propuesto para la entrega (4 dígitos): "))
-            fecha_entrega_propuesta = datetime.date(anio, mes, dia)
+            fecha_entrega_propuesta = datetime(anio, mes, dia)
             fecha_entrega_real = None
             descripcion = input("Ingrese una breve descripcion del trabajo: ")
             retirado = False
@@ -229,6 +231,24 @@ Menú del anotador:
             print("Eliminación del trabajo de manera exitosa.")
         else:
             print("Se cancela la eliminación.")
+
+
+
+    def generar_informe(self, listatrabajo = None):
+        id_cliente = int(input("Ingrese ID del cliente para ver un informe de sus trabajos encargados: "))
+        gen_inf = input("Para generar un informe de los trabajos presione X: ")
+        cliente = self.recl.get_one(id_cliente)
+        id_trabajo = ""
+        listaT = self.repotrabajo.get_one(id_trabajo)
+        t = self.listaT.un_trabajo
+        if gen_inf in ("X", "x"):
+            print(cliente)
+            print(listaT)
+            print(t)
+ 
+        else:
+            print("No se genero ningún informe. ")
+    
 
     
     def salir(self):
